@@ -14,11 +14,11 @@
         <div
           class="flex justify-between items-center w-[800px] ml-[200px] mt-10 text-2xl bg-white h-26"
         >
-          <img src="/temp/<%=element.avatar%>" width="120" height="100" />
+          <img src="/temp/<%=element.productimage%>" width="120" height="100" />
           <div class="text-3xl font-medium ml-4">
-            Product: <%= element.productName.toUpperCase() %>
+            Product: <%= element.productname %>
           </div>
-          <div class="pr-5">Rs.<%= element.price %></div>
+          <div class="pr-5">Rs.<%= element.productprice %></div>
         </div>
         <%})%>
       </div>

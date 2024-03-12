@@ -38,36 +38,37 @@
                         scope="col"
                         class="px-4 py-3.5 text-left text-xl font-bold text-black"
                       >
-                        <span>Product Image</span>
+                        <span>Store Image</span>
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-3.5 text-left text-xl font-bold text-black"
                         
                       >
-                        <span>Product Name</span>
+                        <span>Store Name</span>
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-3.5 text-left text-xl font-bold text-black"
                         
                       >
-                        Product Type
+                        Product Name
                       </th>
                       <th
                         scope="col"
                         class="px-4 py-3.5 text-left text-xl font-bold text-black"
                         
                       >
-                        Description
-                      </th>
+                        Product Image
+                    </th>
+                     
                       <th
-                        scope="col"
-                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
-                        
-                      >
-                        Price
-                      </th>
+                      scope="col"
+                      class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                      
+                    >
+                      Product Type
+                    </th>
                       <th
                         scope="col"
                         class="px-4 py-3.5 text-left text-xl font-bold text-black"
@@ -80,8 +81,15 @@
                         class="px-4 py-3.5 text-left text-xl font-bold text-black"
                         
                       >
-                        Action
+                        Price(per)
                       </th>
+                      <th
+                      scope="col"
+                      class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                      
+                    >
+                      Action
+                    </th>
                     </tr>
                   </thead>
 
@@ -94,45 +102,51 @@
                         class="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
                       >
                         <span></span>
-                          <img src='/temp/<%= element.avatar %>' width="100" height="50"/>
+                          <img src='/store/<%= element.storelogo %>' width="100" height="50"/>
                         </span>
                       </td>
                       <td
                         scope="col"
                         class="px-4 py-3.5 text-left text-lg font-normal"
                       >
-                        <span><%- element.productName %></span>
+                        <span><%- element.storename %></span>
                       </td>
                       <td
                         scope="col"
                         class="px-4 py-3.5 text-left text-lg font-normal"
                       >
-                        <span><%- element.productType %></span>
+                        <span><%- element.productname %></span>
                       </td>
                       <td
                         scope="col"
                         class="px-4 py-3.5 text-left text-lg font-normal"
                       >
-                        <span><%- element.description %></span>
+                        <span> <img src='/temp/<%= element.productimage %>' width="100" height="50"/></span>
                       </td>
                       <td
                         scope="col"
                         class="px-4 py-3.5 text-left text-lg font-normal"
                       >
-                        <span><%- element.price %></span>
-                      </td>
-                      <td
-                        scope="col"
-                        class="px-4 py-3.5 text-left text-lg font-normal"
-                      >
-                        <span><%- element.quantity %></span>
+                        <span><%- element.producttype %></span>
                       </td>
                       <td
                       scope="col"
                       class="px-4 py-3.5 text-left text-md font-normal"
                     >
-                      <span><button class="bg-green-300 px-5 py-2 ml-5 rounded-lg mb-4"><a href="/api/v1/editproduct/<%-element._id%>"> Edit</a></button><button class="bg-red-300 px-5 py-2 ml-5 rounded-lg"><a href="/api/v1/delete/<%-element._id%>">Delete</a></button></span>
+                    <span><%- element.quantity %></span>  
                     </td>
+                    <td
+                    scope="col"
+                    class="px-4 py-3.5 text-left text-md font-normal"
+                  >
+                  <span><%- element.productprice %></span>  
+                  </td>
+                  <td
+                  scope="col"
+                  class="px-4 py-3.5 text-left text-md font-normal"
+                >
+                  <span><button class="bg-green-300 px-5 py-2 ml-5 rounded-lg mb-4"><a href="/api/v1/editproduct/<%=element.id%>"> Edit</a></button><button class="bg-red-300 px-5 py-2 ml-5 rounded-lg"><a href="/api/v1/delete/<%=element.id%>">Delete</a></button></span>
+                </td>
                     </tr>
                     <%});%>
                     <%}%>

@@ -4,8 +4,6 @@ import {
   addProduct,
   addProductUI,
   deleteProduct,
-  editProduct,
-  renderProduct,
   viewProduct,
   vieworder,
 } from "../controllers/product/product.controller.js";
@@ -19,9 +17,6 @@ adminRoutes
   .post(upload.single("avatar"), addProduct);
 adminRoutes.route("/allproduct").get(viewProduct);
 adminRoutes.route("/delete/:id").get(deleteProduct);
-
-adminRoutes.route("/editproduct/:id").get(renderProduct);
-adminRoutes.route("/edit-product").post(editProduct);
 adminRoutes.route("/userinfo").get(userUI);
 adminRoutes.route("/view-order").get(vieworder);
 

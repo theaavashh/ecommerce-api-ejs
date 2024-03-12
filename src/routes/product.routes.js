@@ -3,8 +3,6 @@ import {
   addToCart,
   biddingData,
   cart,
-  filterHighBidder,
-  nearbyStore,
   order,
   placeOrder,
   userProduct,
@@ -22,8 +20,6 @@ productRouter
   .post(sessionValidator, placeOrder);
 
 productRouter.route("/view-auction").get(viewAuction);
-productRouter.route("/nearby").post(nearbyStore);
 productRouter.route("/bidding").post(biddingData);
-productRouter.route("/filter").post(filterHighBidder);
 
 export default productRouter;

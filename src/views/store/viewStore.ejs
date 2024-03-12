@@ -35,6 +35,12 @@
                   <thead class="bg-gray-50">
                     <tr>
                       <th
+                      scope="col"
+                      class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                    >
+                      <span>#</span>
+                    </th>
+                      <th
                         scope="col"
                         class="px-4 py-3.5 text-left text-xl font-bold text-black"
                       >
@@ -70,29 +76,36 @@
                     <tr>
                       <td
                         scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span>#<%= element.id %></span>
+                      </td>
+
+                      <td
+                        scope="col"
                         class="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
                       >
                         <span></span>
-                          <img src='/store/<%= element.logo %>' width="100" height="50"/>
+                          <img src='/store/<%= element.storelogo %>' width="100" height="50"/>
                         </span>
                       </td>
                       <td
                         scope="col"
                         class="px-4 py-3.5 text-left text-lg font-normal"
                       >
-                        <span><%= element.storeName %></span>
+                        <span><%= element.storename %></span>
                       </td>
                       <td
                         scope="col"
                         class="px-4 py-3.5 text-left text-lg font-normal"
                       >
-                        <span><%= element.storeType %></span>
+                        <span><%= element.storetype %></span>
                       </td>
                       <td
                         scope="col"
                         class="px-4 py-3.5 text-left text-lg font-normal"
                       >
-                        <span><%= element.location.coordinates %></span>
+                        <span><%= element.longitude %> | <%= element.latitude %></</span>
                       </td>
                      
                     

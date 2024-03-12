@@ -1,38 +1,41 @@
 import User from "../../models/user.models.js";
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
+import { pool } from "../../config/db.config.js";
 
 const addUser = async (req, res) => {
   try {
     const errors = validationResult(req);
-    console.log(errors);
     if (!errors.isEmpty()) {
       res.json({ errors: errors.array() });
     } else {
-      const userDetails = req.body;
-      const data = await User.create({
-        ...userDetails,
-        avatar: req.file.filename,
-      });
-      data
-        ? res.render("auth/register.ejs", { msg: "User Created" })
-        : res.status(400).json({
-            success: true,
-            message: "User account failed to created",
-          });
+      req.body.avatar = req.file?.filename;
+      const { fullname, email, contact, password, avatar } = req.body;
+      const hashPassword = await bcrypt.hash(password, 10);
+      console.log(hashPassword);
+      await pool.query(
+        "Insert into useregistration (fullname,email,contact,password,avatar) Values($1,$2,$3,$4,$5)",
+        [fullname, email, contact, hashPassword, avatar]
+      );
+      res.render("auth/register.ejs", { msg: "User Created" });
     }
   } catch (e) {
+    console.log(e);
     res.json({ success: false, message: "Bad request from user end" });
   }
 };
 
 const authUser = async (req, res) => {
-  const data = await User.findOne({ email: req.body.email });
-  req.session.contact = data.contact;
-  req.session.fullname = data.fullname;
-  req.session.email = data.email;
+  const data = await pool.query(
+    "Select * from useregistration where email=$1",
+    [req.body.email]
+  );
+  const userDetails = data.rows[0];
+  req.session.contact = userDetails.contact;
+  req.session.fullname = userDetails.fullname;
+  req.session.email = userDetails.email;
   try {
-    if (data.role == "User") res.redirect("site");
+    if (userDetails.roles == "user") res.redirect("site");
     else res.render("product/viewProduct.ejs");
   } catch (e) {
     res.json({ success: false, message: "Bad request from user end" });

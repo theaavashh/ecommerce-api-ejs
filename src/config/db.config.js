@@ -1,13 +1,21 @@
-import mongoose from "mongoose";
+import pkg from "pg";
+const { Pool } = pkg;
 
-const dbConfig = async (dbURI) => {
+const pool = new Pool({
+  host: "localhost",
+  user: "admin",
+  database: "ecomm_task",
+  password: "password",
+  port: 5432,
+});
+
+const dbConfig = async () => {
   try {
-    await mongoose.connect(dbURI);
-    console.log("Database connected");
-  } catch (error) {
-    console.log("Database error", error);
-    process.exit(1);
+    await pool.connect();
+    console.log("Database connected successfully");
+  } catch (e) {
+    return Promise.reject("Database failed to connected");
   }
 };
 
-export default dbConfig;
+export { dbConfig, pool };

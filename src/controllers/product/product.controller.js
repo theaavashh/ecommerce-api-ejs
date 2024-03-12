@@ -1,3 +1,4 @@
+import { pool } from "../../config/db.config.js";
 import Auction from "../../models/auction.models.js";
 import Order from "../../models/order.models.js";
 import Product from "../../models/product.models.js";
@@ -9,66 +10,84 @@ let total = "";
 
 const addProduct = async (req, res) => {
   try {
-    const productDetails = req.body;
-    console.log(productDetails);
-    const data = await Product.create({
-      ...productDetails,
-      avatar: req.file.filename,
+    req.body.productImage = req.file.filename;
+    const {
+      productName,
+      productType,
+      description,
+      productStatus,
+      price,
+      quantity,
+      storeOf,
+      productImage,
+    } = req.body;
+    await pool.query(
+      "Insert into product(productname,producttype,productdescription,productstatus,productprice,quantity,productimage,storetype) Values($1,$2,$3,$4,$5,$6,$7,$8)",
+      [
+        productName,
+        productType,
+        description,
+        productStatus,
+        price,
+        quantity,
+        productImage,
+        storeOf,
+      ]
+    );
+    res.render("product/addProduct.ejs", {
+      msg: "Product added successfully",
     });
-    data
-      ? res.render("product/addProduct.ejs", {
-          msg: "Product added successfully",
-        })
-      : res.render("product/addProduct.ejs", { msg: "Product failed to add" });
   } catch (e) {
+    console.log(e);
     res.json({ success: false, message: e });
   }
 };
 
 const viewProduct = async (req, res) => {
-  const data = await Product.find();
-  res.render("product/viewProduct.ejs", { data });
-};
-
-const editProduct = async (req, res) => {
-  const details = req.body;
-  const data = await Product.findByIdAndUpdate(
-    { _id: details._id },
-    { ...details }
+  const data = await pool.query(
+    "Select st.storename, st.storelogo, pt.* from store st INNER Join product pt on st.id=pt.storetype"
   );
-  data
-    ? res.redirect("allproduct")
-    : res.json({ success: false, msg: "failed to update details" });
+  res.render("product/viewProduct.ejs", { data: data.rows });
 };
 
 const deleteProduct = async (req, res) => {
-  const details = await Product.findByIdAndDelete({ _id: req.params.id });
+  const details = await pool.query("Delete from product where id=$1", [
+    req.params.id,
+  ]);
   if (details) {
-    const data = await Product.find();
-    res.render("product/viewProduct.ejs", { data });
+    const data = await pool.query("Select * from product");
+    res.render("product/viewProduct.ejs", { data: data.rows });
   }
 };
 
-const renderProduct = async (req, res) => {
-  const id = req.params.id;
-  const details = await Product.findById({ _id: id });
-  res.render("product/editProduct.ejs", { details });
-};
-
 const addProductUI = async (req, res) => {
-  const data = await Store.find();
-  res.render("product/addProduct.ejs", { data });
+  const data = await pool.query("Select * from store");
+  res.render("product/addProduct.ejs", { data: data.rows });
 };
 
 const userProduct = async (req, res) => {
-  const time = new Date();
   const category = req.query.category;
-  const filterCategory = await Product.find({ productType: category });
-  const auctionProduct = await Product.find({ productStatus: "auction" });
-  const mrpProduct = await Product.find({ productStatus: "mrp" });
-  const profilePicture = await User.find({ email: req.session.email });
+  let filterCategory = await pool.query(
+    "Select st.storename, pt.* from store st INNER JOIN product pt ON st.id=pt.storetype where producttype=$1",
+    [category]
+  );
+  let auctionProduct = await pool.query(
+    "Select st.storename, pt.* from store st INNER JOIN product pt ON st.id=pt.storetype where productstatus=$1",
+    ["auction"]
+  );
+  let mrpProduct = await pool.query(
+    "Select st.storename, pt.* from store st INNER JOIN product pt ON st.id=pt.storetype where productstatus=$1",
+    ["mrp"]
+  );
+  filterCategory = filterCategory.rows;
+  auctionProduct = auctionProduct.rows;
+  mrpProduct = mrpProduct.rows;
+  const pic = await pool.query(
+    "Select avatar from useregistration where id=$1",
+    [11]
+  );
+  const profilePicture = pic.rows[0].avatar;
   res.render("users/productInterface.ejs", {
-    time,
     profilePicture,
     filterCategory,
     auctionProduct,
@@ -79,21 +98,23 @@ const userProduct = async (req, res) => {
 };
 
 const addToCart = async (req, res) => {
-  const data = await Product.findById({ _id: req.body._id });
-  obj.push(data);
+  const data = await pool.query("Select * from product where id=$1", [
+    req.body._id,
+  ]);
+  obj.push(data.rows[0]);
   res.redirect("/api/v1/site");
 };
 
 const cart = async (req, res) => {
   const total = obj.reduce((a, b) => {
-    return a + b.price;
+    return a + parseInt(b.productprice);
   }, 0);
   res.render("./users/cart.ejs", { data: obj, total });
 };
 
 const order = async (req, res) => {
   const total = obj.reduce((a, b) => {
-    return a + b.price;
+    return a + parseInt(b.productprice);
   }, 0);
   res.render("./users/order.ejs", {
     data: obj,
@@ -104,129 +125,123 @@ const order = async (req, res) => {
 };
 
 const placeOrder = async (req, res) => {
-  const details = req.body;
-  const product = details.productDetails;
+  const product = req.body.productDetails;
+  const { fullName, contact, shippingAddress, paymentMode, totalprice } =
+    req.body;
+
   try {
     const arr = product.toString();
-    details.productDetails = arr;
-    if (+details.totalprice <= 800) {
-      res.json({ success: false, msg: "Thresold of more than 799" });
+    const productInfo = arr;
+    if (totalprice <= 80) {
+      res.json({ success: false, msg: "Thresold of more than 200" });
     } else {
-      const data = await Order.create(details);
+      const data = await pool.query(
+        "Insert into orders (fullname, contact, shippingaddress, paymnentmode, totalprice, productdetails) Values($1,$2,$3,$4,$5,$6)",
+        [
+          fullName,
+          contact,
+          shippingAddress,
+          paymentMode,
+          totalprice,
+          productInfo,
+        ]
+      );
       obj.length = 0;
       res.render("./users/success.ejs");
     }
   } catch (e) {
+    console.log(e);
     res.json({ success: false, msg: "Bad request from user end" });
   }
 };
 
 const vieworder = async (req, res) => {
   try {
-    const data = await Order.find();
-    const details = [...data];
+    const data = await pool.query("Select * from orders");
+    const details = data.rows;
     if (req.query.total) {
       const data = details.filter((element) => {
         return +element.totalprice >= 1500;
       });
       res.render("./product/viewOrder.ejs", { data });
     } else {
-      res.render("./product/viewOrder.ejs", { data });
+      res.render("./product/viewOrder.ejs", { data: data.rows });
     }
   } catch (e) {
     res.json({ success: false, msg: "Failed to fetch order details" });
   }
 };
 
-const nearbyStore = async (req, res) => {
-  const time = new Date();
-  const data = await Store.aggregate([
-    {
-      $geoNear: {
-        near: {
-          type: "Point",
-          coordinates: [
-            parseFloat(req.body.longitude),
-            parseFloat(req.body.latitude),
-          ],
-        },
-        key: "location",
-        maxDistance: parseFloat(1000) * 1609,
-        distanceField: "dist.calculated",
-        spherical: true,
-      },
-    },
-  ]);
-  const auctionProduct = await Product.find({ productStatus: "auction" });
-  const mrpProduct = await Product.find({ productStatus: "mrp" });
-  const nearbyProduct = await Product.find({ storeOf: data[0].storeName });
-  res.render("users/productInterface.ejs", {
-    time,
-    auctionProduct,
-    mrpProduct,
-    data: obj,
-    userId: req.session.fullname,
-    nearbyProduct,
-  });
-};
-
 const biddingData = async (req, res) => {
-  const time = new Date();
-  const { bidAmount, basePrice } = req.body;
-  if (+bidAmount < +basePrice) {
-    res.json({ success: false, msg: "Bid must be greater than base price" });
-  } else {
-    const data = await Auction.create({
-      productId: req.body.productId,
-      productName: req.body.productName,
-      biddDetails: [
-        { bidder: req.body.userId, bidderAmount: req.body.bidAmount },
-      ],
-    });
-    const auctionProduct = await Product.find({ productStatus: "auction" });
-    const mrpProduct = await Product.find({ productStatus: "mrp" });
-    data
-      ? res.render("users/productInterface.ejs", {
-          time,
-          auctionProduct,
-          mrpProduct,
-          data: obj,
-          userId: req.session.fullname,
-        })
-      : res.json({ success: false, msg: "failed to process request" });
+  try {
+    const { bidAmount, basePrice, productId, userId } = req.body;
+    console.log(req.body);
+    if (+bidAmount < +basePrice) {
+      res.json({ success: false, msg: "Bid must be greater than base price" });
+    } else {
+      await pool.query(
+        "Insert into auction(bidamount,baseprice,userid,productid) Values($1,$2,$3,$4)",
+        [bidAmount, basePrice, userId, productId]
+      );
+      let auctionProduct = await pool.query(
+        "Select st.storename, pt.* from store st INNER JOIN product pt ON st.id=pt.storetype where productstatus=$1",
+        ["auction"]
+      );
+      let mrpProduct = await pool.query(
+        "Select st.storename, pt.* from store st INNER JOIN product pt ON st.id=pt.storetype where productstatus=$1",
+        ["mrp"]
+      );
+      auctionProduct = auctionProduct.rows;
+      mrpProduct = mrpProduct.rows;
+      const pic = await pool.query(
+        "Select avatar from useregistration where fullname=$1",
+        [userId]
+      );
+      const profilePicture = pic.rows[0].avatar;
+      res.render("users/productInterface.ejs", {
+        profilePicture,
+        auctionProduct,
+        mrpProduct,
+        data: obj,
+        userId: req.session.fullname,
+      });
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
 
 const viewAuction = async (req, res) => {
-  const data = await Auction.find();
-  res.render("product/viewAuction.ejs", { data });
+  const data = await pool.query(
+    "Select * from product INNER JOIN auction ON product.id=auction.productid"
+  );
+  console.log(data);
+  res.render("product/viewAuction.ejs", { data: data.rows });
 };
 
-const filterHighBidder = async (req, res) => {
-  const highbidder = await Auction.find({ productId: req.body.productId });
-  const data = highbidder.map((element) => {
-    return element.biddDetails[0];
-  });
-  const result = data.reduce((a, b) => {
-    return a > b.bidderAmount ? a : b;
-  }, 0);
-  const updateResult = {
-    productId: req.body.productId,
-    productName: highbidder[0].productName,
-    biddDetails: [],
-  };
-  updateResult.biddDetails.push(result);
-  const highBid = [];
-  highBid.push(updateResult);
-  res.render("product/viewAuction.ejs", { data: highBid });
-};
+// const filterHighBidder = async (req, res) => {
+//   const highbidder = await Auction.find({ productId: req.body.productId });
+//   const data = highbidder.map((element) => {
+//     return element.biddDetails[0];
+//   });
+//   const result = data.reduce((a, b) => {
+//     return a > b.bidderAmount ? a : b;
+//   }, 0);
+//   const updateResult = {
+//     productId: req.body.productId,
+//     productName: highbidder[0].productName,
+//     biddDetails: [],
+//   };
+//   updateResult.biddDetails.push(result);
+//   const highBid = [];
+//   highBid.push(updateResult);
+//   res.render("product/viewAuction.ejs", { data: highBid });
+// };
 
 export {
   addProduct,
   viewProduct,
-  editProduct,
   deleteProduct,
-  renderProduct,
   userProduct,
   addToCart,
   cart,
@@ -234,8 +249,6 @@ export {
   order,
   placeOrder,
   vieworder,
-  nearbyStore,
   biddingData,
   viewAuction,
-  filterHighBidder,
 };

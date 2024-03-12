@@ -1,3 +1,4 @@
+import { pool } from "../../config/db.config.js";
 import User from "../../models/user.models.js";
 
 const register = async (req, res) => {
@@ -17,8 +18,8 @@ const product = async (req, res) => {
 };
 
 const userUI = async (req, res) => {
-  const userdetails = await User.find();
-  res.render("./users/user.ejs", { details: userdetails });
+  const userdetails = await pool.query("Select * from useregistration");
+  res.render("./users/user.ejs", { details: userdetails.rows });
 };
 
 export { register, login, dashboard, product, userUI };

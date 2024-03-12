@@ -19,7 +19,7 @@
           <% if (locals.profilePicture){%>
           <img
             class="profilepicture"
-            src="/temp/<%= profilePicture[0].avatar %>"
+            src="/temp/<%= profilePicture %>"
             height="70"
             width="70"
           />
@@ -58,7 +58,8 @@
           </button></a
         >
       </div>
-      <%if (locals.filterCategory) {%>
+    </div>
+     <%if (locals.filterCategory) {%>
       <div class="flex font-serif space-y-4 mt-4">
         <% filterCategory.forEach((element)=>{%>
         <div
@@ -67,15 +68,15 @@
           <form action="/api/v1/addtocart" method="POST">
             <img
               class="relative left-3"
-              src="/temp/<%= element.avatar%>"
+              src="/temp/<%= element.productimage%>"
               width="200"
               height="200"
             />
             <div class="pt-4 text-left">
-              <%= element.productName.toUpperCase() %>
+              <%= element.productname.toUpperCase() %>
             </div>
-            <div class="text-left">Rs. <%= element.price %></div>
-            <div><%= element.description %></div>
+            <div class="text-left">Rs. <%= element.productprice %></div>
+            <div><%= element.productdescription %></div>
 
             <a href="/api/v1/site">
               <button class="text-xl bg-orange-400 mt-5 p-2 rounded-lg">
@@ -83,19 +84,22 @@
               </button></a
             >
             <div class="relative top-5 bg-green-100 p-3">
-              <%= element.storeOf %>
+              <%= element.storename %>
             </div>
 
-            <input type="hidden" name="_id" value="<%= element._id %>" />
+            <input type="hidden" name="_id" value="<%= element.id %>" />
           </form>
         </div>
 
         <%})%>
       </div>
       <%}%>
-    </div>
+    </div> 
 
-    <h1 class="text-center text-3xl pb-4 mt-5">Limited Offer</h1>
+
+    
+
+     <h1 class="text-center text-3xl pb-4 mt-5">Limited Offer</h1> 
     <div class="flex font-serif space-y-4">
       <% auctionProduct.forEach((element)=>{%>
       <div
@@ -104,14 +108,16 @@
         <form action="/api/v1/bidding" method="POST">
           <img
             class="relative left-3"
-            src="/temp/<%= element.avatar%>"
+            src="/temp/<%= element.productimage%>"
             width="200"
             height="200"
           />
           <div class="pt-4 text-left">
-            <%= element.productName.toUpperCase() %>
+            <%= element.productname.toUpperCase() %>
           </div>
-          <div class="text-left">Base Price : Rs. <%= element.price %></div>
+          <div class="text-left">
+            Base Price : Rs. <%= element.productprice %>
+          </div>
           <div><%= element.description %></div>
           <input
             type="text"
@@ -124,30 +130,16 @@
               Bid
             </button></a
           >
-          <div class="text-lg mt-2">
-            Created On: 2024-02-<%= element.createdAt.getDate() %> <%=
-            element.createdAt.getHours()%>:<%=
-            element.createdAt.getMinutes()%>:<%=
-            element.createdAt.getSeconds()%>
-          </div>
-          <div class="text-lg">
-            Exp. On: 2024-02-<%= time.getDate()+5%> <%= time.getHours()%>:<%=
-            time.getMinutes()%>:<%= time.getSeconds()%>
-          </div>
-          <div>
-            Time Left: <%= element.createdAt.getDate() +5 -
-            element.createdAt.getDate() %>
-          </div>
 
           <div class="relative top-5 bg-green-100 p-3">
-            <%= element.storeOf %>
+            <%= element.storename %>
           </div>
-          <input type="hidden" name="basePrice" value="<%= element.price%>" />
-          <input type="hidden" name="productId" value="<%= element._id %>" />
+          <input type="hidden" name="basePrice" value="<%= element.productprice%>" />
+          <input type="hidden" name="productId" value="<%= element.id %>" />
           <input
             type="hidden"
             name="productName"
-            value="<%= element.productName %>"
+            value="<%= element.productname %>"
           />
           <input type="hidden" name="userId" value="<%= userId %>" />
         </form>
@@ -155,6 +147,7 @@
 
       <%})%>
     </div>
+    
 
     <h1 class="text-center text-3xl pb-4 mt-6">Just For You</h1>
     <%if (locals.mrpProduct) {%>
@@ -164,11 +157,11 @@
         class="flex flex-col bg-white space-y-3 mx-10 py-5 text-xl px-10 text-center"
       >
         <form action="/api/v1/addtocart" method="POST">
-          <img src="/temp/<%= element.avatar%>" width="200" height="200" />
+          <img src="/temp/<%= element.productimage%>" width="200" height="200" />
           <div class="pt-4 text-left">
-            <%= element.productName.toUpperCase() %>
+            <%= element.productname.toUpperCase() %>
           </div>
-          <div class="text-left">Rs. <%= element.price %></div>
+          <div class="text-left">Rs. <%= element.productprice %></div>
           <div><%= element.description %></div>
 
           <a href="/api/v1/site">
@@ -177,10 +170,10 @@
             </button></a
           >
           <div class="relative top-5 bg-green-100 p-3">
-            <%= element.storeOf %>
+            <%= element.storename %>
           </div>
 
-          <input type="hidden" name="_id" value="<%= element._id %>" />
+          <input type="hidden" name="_id" value="<%= element.id %>" />
         </form>
       </div>
 
@@ -247,6 +240,6 @@
 
       <%})%>
     </div>
-    <%}%>
+    <%}%>  -->
   </body>
 </html>

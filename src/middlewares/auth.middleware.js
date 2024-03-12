@@ -1,18 +1,19 @@
-import User from "../models/user.models.js";
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
+import { pool } from "../config/db.config.js";
 
 const authMiddleWare = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-      const credentialUser = await User.findOne({
-        email: req.body.email,
-      });
+      const credentialUser = await pool.query(
+        "Select * from useregistration where email=$1",
+        [req.body.email]
+      );
       if (credentialUser) {
-        const decryptedPassword = await bcrypt.compare(
+        await bcrypt.compare(
           req.body.password,
-          credentialUser.password
+          credentialUser.rows[0].password
         );
         next();
       } else {
@@ -22,6 +23,7 @@ const authMiddleWare = async (req, res, next) => {
       res.json({ errors: errors.array() });
     }
   } catch (e) {
+    console.log(e);
     res.json({ success: false, msg: "Bad Request for client end" });
   }
 };
