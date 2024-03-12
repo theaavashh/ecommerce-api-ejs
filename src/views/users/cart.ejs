@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="font-serif bg-[#E3E7E7]">
+    <div class="m-20">
+      <h1 class="text-3xl ml-36">Your Cart</h1>
+      <div>
+        <% data.forEach((element)=>{%>
+        <div
+          class="flex justify-between items-center w-[800px] ml-[200px] mt-10 text-2xl bg-white h-26"
+        >
+          <img src="/temp/<%=element.avatar%>" width="120" height="100" />
+          <div class="text-3xl font-medium ml-4">
+            Product: <%= element.productName.toUpperCase() %>
+          </div>
+          <div class="pr-5">Rs.<%= element.price %></div>
+        </div>
+        <%})%>
+      </div>
+      <h4 class="text-2xl ml-[600px] mt-8">Sub-Total: <%= total %></h4>
+      <a href="/api/v1/order">
+        <button
+          type="button"
+          class="bg-black text-white p-3 w-96 mt-10 relative left-[300px]"
+        >
+          Checkout
+        </button>
+      </a>
+
+      <a href="/api/v1/site" class="text-lg ml-[400px] mt-5 block">Continue Shopping</button></a>
+    </div>
+  </body>
+</html>

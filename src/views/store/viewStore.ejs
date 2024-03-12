@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Product</title>
+  </head>
+  <body class="flex font-serif">
+    <%- include('../product/dashboard.ejs'); %>
+    <div class="form-container">
+      <h1 class="font-medium text-4xl m-10">- View Store</h1>
+      <section class="mx-10 w-full max-w-7xl px-4">
+        <div
+          class="flex flex-col  space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0"
+        >
+          <div>
+            <a href="/api/v1/store">
+              <button
+                type="button"
+                class="text-lg rounded-md bg-black px-5 ml-5 py-2 font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                Add Store
+              </button></a
+            >
+          </div>
+        </div>
+        <div class="mt-6 flex flex-col">
+          <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div
+              class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
+            >
+              <div class="overflow-hidden border border-gray-200 md:rounded-lg mx-10">
+               
+                <table class="min-w-[950px] divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                      >
+                        <span>Store Logo</span>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                        
+                      >
+                        <span>Store Name</span>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                        
+                      >
+                        Store Type
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                        
+                      >
+                        Location
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% if(locals.data){%>
+                        <% data.forEach((element)=>{%>
+                    <tr>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
+                      >
+                        <span></span>
+                          <img src='/store/<%= element.logo %>' width="100" height="50"/>
+                        </span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%= element.storeName %></span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%= element.storeType %></span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%= element.location.coordinates %></span>
+                      </td>
+                     
+                    
+                    
+                    </tr>
+                    <%});%>
+                    <%}%>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

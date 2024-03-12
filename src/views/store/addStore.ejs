@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body{
+            font-family: 'Times New Roman', Times, serif;
+        }
+    </style>
+  </head>
+  <body class="flex">
+    <%- include('../product/dashboard.ejs'); %>
+    <div class="flex flex-col ">
+      <% if (locals.msg){%>
+      <div
+        class="bg-purple-100 border border-purple-400 text-black tex-2xl text-center px-4 mt-5 py-3 rounded relative"
+        role="alert"
+      >
+        <strong class="font-semibold text-2xl font-serif"><%= msg %></strong>
+      </div>
+      <%}%>
+      <form
+        action="/api/v1/store"
+        method="POST"
+        class="mx-20"
+        enctype="multipart/form-data"
+      >
+      <h1 class="font-medium text-4xl my-12">- ADD STORE -</h1>
+        <div class="form-container flex justify-between w-[900px]">
+          <div class="left-wrapper ml-20">
+            <div class="mb-5">
+              <label for="product" class="text-2xl font-normal py-10">
+                Store Name
+              </label>
+              <input
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                type="text"
+                name="storeName"
+              />
+            </div>
+            <div class="mb-5">
+              <label for="type" class="text-2xl font-normal py-10">
+                Store Logo
+              </label>
+              <input
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                type="file"
+                id="type"
+                name="logo"
+              />
+            </div>
+            <div class="mb-5">
+              <label for="desc" class="text-2xl font-normal py-10">
+               Store Type
+              </label>
+              <input
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                type="text"
+                id="type"
+                name="storeType"
+              />
+              
+              
+            </div>
+            <div class="mb-5">
+              <label for="price" class="text-2xl font-normal py-10">
+               Location
+              </label>
+              <div class="flex gap-4">
+                <input
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                placeholder="Longitude"
+                type="text"
+                id="price"
+                name="longitude"
+              />
+              <input
+              class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+              placeholder="Latitude"
+              type="text"
+              id="quantity"
+              name="latitude"
+            />
+              </div>
+            </div>
+            </div>   
+          </div>
+          <button class="bg-black text-white px-5 py-3 m-10">Add Store</button>
+        </div>
+     
+      </form>
+    </div>
+    </div>
+  </body>
+</html>

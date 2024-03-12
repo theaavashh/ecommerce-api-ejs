@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Product</title>
+  </head>
+  <body class="flex font-serif">
+    <%- include('./dashboard.ejs'); %>
+    <div class="form-container">
+      <h1 class="font-medium text-4xl m-10">-View Auction</h1>
+      <section class="mx-auto w-full max-w-7xl px-4">
+        <div
+          class="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0"
+        ></div>
+        <div class="mt-6 flex flex-col">
+          <form action="/api/v1/filter" method="POST">
+            <input type="text" placeholder="product id" name="productId" />
+            <button>Search</button>
+          </form>
+          <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div
+              class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
+            >
+              <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+                <table class="min-w-[950px] divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                      >
+                        <span>Product Id</span>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                      >
+                        <span>Product Name</span>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                      >
+                        Bidder Name
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                      >
+                        Bid Price
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% if(locals.data){%> <% data.forEach((element)=>{%>
+                    <tr>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
+                      >
+                        <span> <%= element.productId %> </span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%- element.productName %></span>
+                      </td>
+                      <% element.biddDetails.forEach((ele)=>{%>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%= ele.bidder %></span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%= ele.bidderAmount %></span>
+                      </td>
+                      <%})%>
+                    </tr>
+                    <%});%> <%}%>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

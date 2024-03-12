@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Product</title>
+  </head>
+  <body class="flex font-serif">
+    <%- include('./dashboard.ejs'); %>
+    <div class="form-container">
+      <h1 class="font-bold text-4xl m-16">EDIT PRODUCT</h1>
+
+      <form action="/api/v1/edit-product" method="POST" class="mx-20">
+        <div class="form-container flex justify-between w-[900px]">
+          <div class="left-wrapper">
+            <div class="mb-5">
+              <input type="hidden" name="_id" value="<%= details._id %>" />
+              <label for="product" class="text-2xl font-bold py-10">
+                Product Name
+              </label>
+              <input
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                type="text"
+                id="product"
+                name="productName"
+                value="<%= details.productName %>"
+              />
+            </div>
+            <div class="mb-5">
+              <label for="type" class="text-2xl font-bold py-10">
+                Product Type
+              </label>
+              <input
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                type="text"
+                id="type"
+                name="productType"
+                value="<%= details.productType%>"
+              />
+            </div>
+            <div class="mb-5">
+              <label for="desc" class="text-2xl font-bold py-10">
+                Product Description
+              </label>
+              <textarea
+                rows="30"
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                type="text"
+                name="description"
+              >
+              <%= details.description %></textarea
+              >
+            </div>
+          </div>
+          <div class="left-wrapper">
+            <div class="mb-5">
+              <label for="price" class="text-2xl font-bold py-10">
+                Product Price
+              </label>
+              <input
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                type="text"
+                id="price"
+                name="price"
+                value="<%= details.price%>"
+              />
+            </div>
+            <div class="mb-5">
+              <label for="quantity" class="text-2xl font-bold py-10">
+                Quantity
+              </label>
+              <input
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                type="text"
+                id="quantity"
+                name="quantity"
+                value="<%= details.quantity %>"
+              />
+            </div>
+            <div class="mb-5">
+              <label for="name" class="text-2xl font-bold py-10">
+                Product Image
+              </label>
+              <img src="/<%=details.avatar %>" height="100" width="100" />
+              <input
+                type="hidden"
+                class="flex h-10 w-96 rounded-md border-2 border-black bg-transparent px-3 py-2 my-3 text-xl placeholder:text-gray-400"
+                name="avatar"
+                value="<%= details.avatar %>"
+              />
+            </div>
+            <button
+              class="bg-black text-white relative left-[-200px] px-5 py-3 m-5"
+            >
+              Edit Product
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

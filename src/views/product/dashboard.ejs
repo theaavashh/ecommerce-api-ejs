@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <aside
+      class="flex h-screen w-64 flex-col overflow-y-auto border-r bg-white px-5 py-8"
+    >
+      <a href="#"> </a>
+      <div class="mt-6 flex flex-1 flex-col justify-between">
+        <nav class="-mx-3 space-y-6">
+          <div class="space-y-3">
+            <label class="px-3 text-3xl font-serif font-bold"> Store</label>
+            <a
+              class="flex transform items-center rounded-lg px-3 py-2 text-gray-600 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+              href="/api/v1/store"
+            >
+              <span class="mx-2 text-2xl font-medium text-black font-serif"
+                >Add Store</span
+              >
+            </a>
+            <a
+              class="flex transform items-center rounded-lg px-3 py-2 text-gray-600 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+              href="/api/v1/view-store"
+            >
+              <span class="mx-2 text-2xl font-medium text-black font-serif"
+                >View Store</span
+              >
+            </a>
+          </div>
+          <div class="space-y-3">
+            <label class="px-3 text-3xl font-serif font-bold"> Product </label>
+            <a
+              class="flex transform items-center rounded-lg px-3 py-2 text-gray-600 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+              href="/api/v1/product"
+            >
+              <span class="mx-2 text-2xl font-medium text-black font-serif"
+                >Add Product</span
+              >
+            </a>
+            <a
+              class="flex transform items-center rounded-lg px-3 py-2 text-gray-600 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+              href="/api/v1/allproduct"
+            >
+              <span class="mx-2 text-2xl font-medium text-black font-serif"
+                >View Product</span
+              >
+            </a>
+          </div>
+          <div class="space-y-3">
+            <label class="px-3 text-3xl font-serif font-bold"> Auction </label>
+            <a
+              class="flex transform items-center rounded-lg px-3 py-2 text-gray-600 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+              href="/api/v1/view-auction"
+            >
+              <span class="mx-2 text-2xl font-medium text-black font-serif"
+                >View Auction</span
+              >
+            </a>
+          </div>
+          <div class="space-y-3">
+            <label class="px-3 text-3xl font-serif font-bold"> Order </label>
+            <a
+              class="flex transform items-center rounded-lg px-3 py-2 text-gray-600 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+              href="/api/v1/view-order"
+            >
+              <span class="mx-2 text-2xl font-medium text-black font-serif"
+                >View Order</span
+              >
+            </a>
+          </div>
+          <div class="space-y-3">
+            <label class="px-3 text-3xl font-serif font-bold"> User </label>
+            <a
+              class="flex transform items-center rounded-lg px-3 py-2 text-gray-600 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
+              href="/api/v1/userinfo"
+            >
+              <span class="mx-2 text-2xl font-medium text-black font-serif"
+                >View User</span
+              >
+            </a>
+          </div>
+        </nav>
+      </div>
+    </aside>
+  </body>
+</html>

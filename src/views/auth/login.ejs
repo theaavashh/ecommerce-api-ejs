@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#E3E6EE] font-serif">
+    <div
+      class="flex flex-col h-[80vh] w-[40vw] mx-auto my-14 bg-[#FFFEFE] rounded-sm"
+    >
+      <header class="m-8">
+        <h1 class="text-4xl font-bold">Sign In</h1>
+        <h5 class="text-2xl">
+          Don't have an account? <a href="/api/v1/register">Create account</a>
+        </h5>
+      </header>
+
+      <form class="flex flex-col mx-20" action="/api/v1/login" method="POST">
+        <div class="mb-5">
+          <label class="text-2xl">Email address</label>
+          <input
+            type="email"
+            name="email"
+            class="text-xl text-center mx-5 h-10 w-72 border-2 border-black rounded-sm"
+          />
+        </div>
+
+        <div class="mb-16">
+          <label class="text-2xl">Password</label>
+          <input
+            type="password"
+            name="password"
+            class="text-xl text-center mx-5 h-10 w-72 border-2 border-black rounded-sm"
+          />
+        </div>
+        <button class="h-10 w-64 bg-black text-white mx-10 text-2xl">
+          Get Started
+        </button>
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Product</title>
+  </head>
+  <body class="flex font-serif">
+    <%- include('./dashboard.ejs'); %>
+    <div class="form-container">
+      <h1 class="font-medium text-4xl m-10">-View Product</h1>
+      <section class="mx-auto w-full max-w-7xl px-4">
+        <div
+          class="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0"
+        >
+          <div>
+            <a href="/api/v1/store">
+              <button
+                type="button"
+                class="rounded-md bg-black px-5 py-3 ml-5 text-lg font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              >
+                Add Store
+              </button></a
+            >
+          </div>
+        </div>
+        <div class="mt-6 flex flex-col">
+          <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div
+              class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8"
+            >
+              <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+               
+                <table class="min-w-[950px] divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                      >
+                        <span>Product Image</span>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                        
+                      >
+                        <span>Product Name</span>
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                        
+                      >
+                        Product Type
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                        
+                      >
+                        Description
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                        
+                      >
+                        Price
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                        
+                      >
+                        Quantity
+                      </th>
+                      <th
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-xl font-bold text-black"
+                        
+                      >
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% if(locals.data){%>
+                        <% data.forEach((element)=>{%>
+                    <tr>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
+                      >
+                        <span></span>
+                          <img src='/temp/<%= element.avatar %>' width="100" height="50"/>
+                        </span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%- element.productName %></span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%- element.productType %></span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%- element.description %></span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%- element.price %></span>
+                      </td>
+                      <td
+                        scope="col"
+                        class="px-4 py-3.5 text-left text-lg font-normal"
+                      >
+                        <span><%- element.quantity %></span>
+                      </td>
+                      <td
+                      scope="col"
+                      class="px-4 py-3.5 text-left text-md font-normal"
+                    >
+                      <span><button class="bg-green-300 px-5 py-2 ml-5 rounded-lg mb-4"><a href="/api/v1/editproduct/<%-element._id%>"> Edit</a></button><button class="bg-red-300 px-5 py-2 ml-5 rounded-lg"><a href="/api/v1/delete/<%-element._id%>">Delete</a></button></span>
+                    </td>
+                    </tr>
+                    <%});%>
+                    <%}%>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

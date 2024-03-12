@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#E3E6EE]">
+    <% if (locals.msg){%>
+    <div
+      class="bg-purple-100 border border-purple-400 text-black tex-2xl text-center px-4 mt-5 py-3 rounded relative"
+      role="alert"
+    >
+      <strong class="font-semibold text-2xl font-serif"><%= msg %></strong>
+    </div>
+    <%}%>
+    <div
+      class="container h-[80vh] w-[55vw] mx-auto my-14 bg-[#FFFEFE] rounded-sm"
+    >
+      <!-- <span>User</span> -->
+      <h1 class="text-4xl font-bold font-serif tracking-wide pt-10 pl-20">
+        Sign Up
+      </h1>
+      <h5 class="font-serif text-center text-2xl">
+        Enter your details below to create your account and get started
+      </h5>
+      <form action="/api/v1/user" method="POST" enctype="multipart/form-data">
+        <div class="flex justify-around mt-10">
+          <div class="flex flex-col">
+            <label class="font-serif text-2xl">Full Name</label>
+            <input
+              class="h-10 w-64 border border-solid border-2 border-black text-center rounded-sm mb-8"
+              type="text"
+              id="fullname"
+              name="fullname"
+              placeholder="Enter name"
+            />
+            <label class="font-serif text-2xl">Email</label>
+            <input
+              class="h-10 w-64 border border-solid border-2 border-black text-center rounded-sm mb-8"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="abc@demo.com"
+            />
+            <label class="font-serif text-2xl">Contact</label>
+            <input
+              class="h-10 w-64 border border-solid border-2 border-black text-center rounded-sm mb-8"
+              type="text"
+              id="contact"
+              name="contact"
+              placeholder="97XXXXXXX"
+            />
+          </div>
+          <div class="flex flex-col">
+            <label class="font-serif text-2xl">Password</label>
+            <input
+              class="h-10 w-64 border border-solid border-2 border-black text-center rounded-sm mb-8"
+              type="password"
+              id="fullname"
+              name="password"
+              placeholder="Enter name"
+            />
+            <label class="font-serif text-2xl">Your Avatar</label>
+            <input
+              class="h-10 w-64 border border-solid border-2 border-black text-center rounded-sm mb-8"
+              type="file"
+              name="avatar"
+            />
+          </div>
+        </div>
+        <button class="w-96 h-10 ml-36 bg-black text-white font-serif">
+          Register
+        </button>
+      </form>
+    </div>
+  </body>
+</html>
